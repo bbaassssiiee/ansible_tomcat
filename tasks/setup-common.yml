@@ -27,17 +27,6 @@
     - "{{ tomcat_apps_dir }}/temp"
   tags: [ tomcat, setup ]
 
-- name: "copy extra libs"
-  action: get_url url={{ tomcat_download_prefix }}/{{ item.src }} dest={{ tomcat_install_dir }}/{{ tomcat_list[tomcat_version]['dirname'] }}/{{ item.dest }} force=yes
-  with_items: tomcat_extra_libs
-  tags: [ tomcat, setup ]
-
-- name: "remove extra libs"
-  action: file path={{ tomcat_install_dir }}/{{ tomcat_list[tomcat_version]['dirname'] }}/{{ item.dest }} state=absent
-  with_items: tomcat_extra_libs
-  when: item.state != 'enabled'
-  tags: [ tomcat, setup ]
-
 - name: "[tomcat] create system group"
   action: group name={{ tomcat_group }} system=yes state=present
   tags: [ tomcat, setup ]
